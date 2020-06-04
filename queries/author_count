@@ -1,0 +1,13 @@
+#Find the publication with the most authors, and it's number of authors
+#Only returns ID of the publication. More info can be gathered by querying
+# the found ID
+db.publications.aggregate([
+    {$unwind: "$authors"},
+    {$group: {
+        _id: "$_id",
+        authorCount: {$sum: 1}
+        }
+    },
+    {$sort: {authorCount: -1} },
+    {$limit: 1}
+])
